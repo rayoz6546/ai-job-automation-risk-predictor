@@ -8,7 +8,6 @@ from sklearn.linear_model import LinearRegression
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 
-
 def load_training_data(path: str) -> pd.DataFrame:
     return pd.read_csv(path)
 
@@ -82,11 +81,22 @@ def get_random_forest_importance_df(rf_model, X_train):
 
 
 if __name__ == "__main__":
-    input_path = "/Users/selmayilmaz/Desktop/Capstone/DSCapstone/Datasets/training_dataset.csv"
-    model_output_path = "/Users/selmayilmaz/Desktop/Capstone/DSCapstone/Datasets/automation_rf_model.pkl"
-    importance_output_path = "/Users/selmayilmaz/Desktop/Capstone/DSCapstone/Datasets/rf_feature_importances.csv"
-    predictions_output_path = "/Users/selmayilmaz/Desktop/Capstone/DSCapstone/Datasets/model_predictions.csv"
+    from pathlib import Path
 
+    BASE_DIR = Path(__file__).resolve().parents[2]
+    DATA_DIR = BASE_DIR / "data"
+    MODEL_DIR = BASE_DIR / "models"
+    OUTPUT_DIR = BASE_DIR / "outputs"
+
+    input_path = DATA_DIR / "processed" / "training_dataset.csv"
+    model_output_path = MODEL_DIR / "automation_rf_model.pkl"
+    importance_output_path = OUTPUT_DIR / "rf_feature_importances.csv"
+    predictions_output_path = OUTPUT_DIR / "model_predictions.csv"
+
+    MODEL_DIR.mkdir(parents=True, exist_ok=True)
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+
+    # keep your existing training code below, just use these paths
     df = load_training_data(input_path)
 
     X, y, feature_cols, filtered_df = select_features_and_target(df)

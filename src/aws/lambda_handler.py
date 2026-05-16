@@ -5,6 +5,7 @@ import uuid
 from datetime import datetime
 import pandas as pd
 from io import StringIO
+from decimal import Decimal
 
 dynamodb = boto3.resource("dynamodb")
 secrets_client = boto3.client("secretsmanager")
@@ -23,6 +24,8 @@ response = secrets_client.get_secret_value(SecretId=SECRET_NAME)
 secret_dict = json.loads(response["SecretString"])
 api_key = secret_dict["api_key"]
 client = OpenAI(api_key=api_key)
+
+
 
 
 def load_datasets_from_s3(bucket_name: str):
@@ -149,11 +152,31 @@ def get_scored_match(best_match_title: str, scored_df: pd.DataFrame):
         "employment_change_percent_2024_34": None if pd.isna(row.get("employment_change_percent_2024_34")) else float(row["employment_change_percent_2024_34"]),
     }
 
+def to_dynamodb_value(value):
+    if value is None:
+        return None
+    if isinstance(value, float):
+        return Decimal(str(value))
+    return value
 
 def lambda_handler(event, context):
     method = event["requestContext"]["http"]["method"]
 
-    if method == "POST":
+    if method == "OPTIONS":
+        return {
+            "statusCode": 200,
+            "headers": {
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Headers": "Content-Type,x-api-key",
+                "Access-Control-Allow-Methods": "POST,OPTIONS"
+            },
+            "body": json.dumps({"message": "CORS preflight OK"})
+        }
+    
+    
+
+
+    elif method == "POST":
         try:
             body = json.loads(event["body"])
             job_title = body["jobTitle"]
@@ -190,12 +213,12 @@ def lambda_handler(event, context):
                 "jobId": job_id,
                 "jobTitle": job_title,
                 "matchedJobTitle": scored_result["matched_job_title"],
-                "automationRiskScore": scored_result["automation_risk_score"],
+                "automationRiskScore": to_dynamodb_value(scored_result["automation_risk_score"]),
                 "automationRiskLabel": scored_result["automation_risk_label"],
-                "employment2024": scored_result["employment_2024"],
-                "employment2034": scored_result["employment_2034"],
-                "employmentChangeNumeric2024_34": scored_result["employment_change_numeric_2024_34"],
-                "employmentChangePercent2024_34": scored_result["employment_change_percent_2024_34"],
+                "employment2024": to_dynamodb_value(scored_result["employment_2024"]),
+                "employment2034": to_dynamodb_value(scored_result["employment_2034"]),
+                "employmentChangeNumeric2024_34": to_dynamodb_value(scored_result["employment_change_numeric_2024_34"]),
+                "employmentChangePercent2024_34": to_dynamodb_value(scored_result["employment_change_percent_2024_34"]),
                 "createdAt": datetime.utcnow().isoformat()
             }
 

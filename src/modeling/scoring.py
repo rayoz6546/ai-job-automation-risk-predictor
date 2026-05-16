@@ -81,8 +81,13 @@ def add_risk_labels(df: pd.DataFrame) -> pd.DataFrame:
 
 
 if __name__ == "__main__":
-    input_path = "/Users/selmayilmaz/Desktop/Capstone/DSCapstone/Datasets/job_features.csv"
-    output_path = "/Users/selmayilmaz/Desktop/Capstone/DSCapstone/Datasets/job_features_scored.csv"
+    from pathlib import Path
+
+    BASE_DIR = Path(__file__).resolve().parents[2]
+    DATA_DIR = BASE_DIR / "data"
+
+    input_path = DATA_DIR / "processed" / "job_features.csv"
+    output_path = DATA_DIR / "processed" / "job_features_scored.csv"
 
     df = pd.read_csv(input_path)
     df = build_risk_scores(df)
@@ -97,7 +102,7 @@ if __name__ == "__main__":
 
     print("\nAutomation Risk Label Distribution:")
     print(df["automation_risk_label"].value_counts(normalize=True).mul(100).round(1).astype(str) + "%")
-    print()
 
+    output_path.parent.mkdir(parents=True, exist_ok=True)
     df.to_csv(output_path, index=False)
     print(f"Saved scored features to: {output_path}")

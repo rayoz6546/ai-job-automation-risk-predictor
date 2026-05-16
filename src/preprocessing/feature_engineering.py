@@ -108,7 +108,13 @@ def get_features_for_job(job_title: str, job_features_df: pd.DataFrame) -> pd.Se
 
 
 if __name__ == "__main__":
-    csv_path = "../Datasets/public_skills_data.csv"
+    from pathlib import Path
+
+    BASE_DIR = Path(__file__).resolve().parents[2]
+    DATA_DIR = BASE_DIR / "data"
+
+    csv_path = DATA_DIR / "raw" / "public_skills_data.csv"
+    output_path = DATA_DIR / "processed" / "job_features.csv"
 
     raw_df = load_skills_data(csv_path)
     job_features_df = build_job_feature_table(raw_df)
@@ -116,6 +122,6 @@ if __name__ == "__main__":
     print("Job feature table shape:", job_features_df.shape)
     print(job_features_df.head())
 
-    output_path = "/Users/selmayilmaz/Desktop/Capstone/DSCapstone/Datasets/job_features.csv"
+    output_path.parent.mkdir(parents=True, exist_ok=True)
     job_features_df.to_csv(output_path, index=False)
     print(f"Saved job features to: {output_path}")

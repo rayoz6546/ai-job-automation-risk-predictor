@@ -45,9 +45,14 @@ def predict_for_job_title(job_title: str, model, feature_columns, job_features_d
 
 
 if __name__ == "__main__":
-    model_path = "/Users/selmayilmaz/Desktop/Capstone/DSCapstone/Datasets/automation_rf_model.pkl"
-    job_features_path = "/Users/selmayilmaz/Desktop/Capstone/DSCapstone/Datasets/job_features.csv"
+    from pathlib import Path
 
+    BASE_DIR = Path(__file__).resolve().parents[2]
+    MODEL_DIR = BASE_DIR / "models"
+    DATA_DIR = BASE_DIR / "data"
+
+    model_path = MODEL_DIR / "automation_rf_model.pkl"
+    job_features_path = DATA_DIR / "processed" / "job_features.csv"
     model, feature_columns = load_saved_model(model_path)
     job_features_df = load_job_features(job_features_path)
 

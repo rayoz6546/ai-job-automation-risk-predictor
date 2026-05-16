@@ -3,7 +3,7 @@ AI-powered system that predicts job automation risk by combining machine learnin
 
 **Live App Link:** [Open the app here](https://job-automation-insights.streamlit.app/) 
 
-![System Design Diagram](docs/System%20Design%20Diagram.png)
+![System Design Diagram](docs/System_Design_Diagram.png)
 
 
 ## Project Overview
@@ -50,39 +50,51 @@ After merging, a Random Forest model was trained to predict automation probabili
 ## Repository Structure
 
 ```text
-DSCapstone/
-├── Code/
-│   ├── app.py
-│   ├── aws_lambda.py
-│   ├── feature_engineering.py
-│   ├── merge_training_data.py
-│   ├── model_training.py
-│   ├── predict_model.py
-│   └── scoring.py
-├── Datasets/
-│   ├── automation_data_by_state.csv
-│   ├── automation_rf_model.pkl
-│   ├── job_features.csv
-│   ├── job_features_scored.csv
-│   ├── model_predictions.csv
-│   ├── rf_feature_importances.csv
-│   └── training_dataset.csv
-├── Notebooks/
-│   ├── NN_Automation_Risk_Analysis.ipynb
-│   └── Skill_Assessment.ipynb
-├── requirements.txt
-└── README.md 
+ai-job-automation-risk-predictor/
+├── app/
+│   └── streamlit_app.py
+├── src/
+│   ├── clients/
+│   │   └── aws_client.py
+│   ├── aws/
+│   │   └── lambda_handler.py
+│   ├── llm/
+│   │   ├── prediction_prompt.py
+│   │   └── prompt_templates.py
+│   ├── modeling/
+│   │   ├── model_training.py
+│   │   └── predict_model.py
+│   └── preprocessing/
+│       ├── feature_engineering.py
+│       ├── merge_training_data.py
+│       └── scoring.py
+├── data/
+├── notebooks/
+├── models/
+├── outputs/
+└── docs/
 ```
 
 ## Main Components
 
-- `Code/app.py` contains the Streamlit frontend
-- `Code/aws_lambda.py` contains the AWS Lambda backend logic
-- `Code/feature_engineering.py` creates occupation-level features
-- `Code/merge_training_data.py` merges engineered features with automation targets
-- `Code/model_training.py` trains and evaluates the ML model
-- `Code/predict_model.py` runs local model inference
-- `Code/scoring.py` builds the rule-based baseline
+## Main Components
+
+- `app/streamlit_app.py` contains the Streamlit frontend used to enter job titles, call the AWS API, and display automation-risk results.
+- `src/clients/aws_client.py` handles requests from the Streamlit app to the deployed AWS API Gateway endpoint.
+- `src/aws/lambda_handler.py` contains the AWS Lambda backend logic used to process API requests, match job titles, retrieve job data, and return structured results.
+- `src/llm/prediction_prompt.py` defines the prompt logic used for LLM-based job-title matching and reasoning.
+- `src/llm/prompt_templates.py` stores reusable prompt templates for LLM calls.
+- `src/preprocessing/feature_engineering.py` creates occupation-level features from raw job-skill data.
+- `src/preprocessing/merge_training_data.py` merges engineered occupation features with automation-risk target data.
+- `src/preprocessing/scoring.py` builds the rule-based automation-risk baseline from selected job traits.
+- `src/modeling/model_training.py` trains and evaluates the Random Forest automation-risk model.
+- `src/modeling/predict_model.py` runs local model inference using the trained model and processed occupation features.
+- `models/automation_rf_model.pkl` stores the trained Random Forest model used by the local prediction pipeline.
+- `data/raw/` contains original input datasets.
+- `data/processed/` contains cleaned and engineered datasets used by the model and app.
+- `outputs/` stores generated model outputs, predictions, and evaluation artifacts.
+- `docs/` contains project documentation, including the system design diagram.
+
 
 ## Interpretation Notes
 

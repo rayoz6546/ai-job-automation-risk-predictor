@@ -82,9 +82,14 @@ def merge_training_data(job_features_df: pd.DataFrame, target_df: pd.DataFrame) 
 
 
 if __name__ == "__main__":
-    job_features_path = "/Users/selmayilmaz/Desktop/Capstone/DSCapstone/Datasets/job_features.csv"
-    automation_target_path = "/Users/selmayilmaz/Desktop/Capstone/DSCapstone/Datasets/automation_data_by_state.csv"
-    output_path = "/Users/selmayilmaz/Desktop/Capstone/DSCapstone/Datasets/training_dataset.csv"
+    from pathlib import Path
+
+    BASE_DIR = Path(__file__).resolve().parents[2]
+    DATA_DIR = BASE_DIR / "data"
+
+    job_features_path = DATA_DIR / "processed" / "job_features.csv"
+    automation_target_path = DATA_DIR / "raw" / "automation_data_by_state.csv"
+    output_path = DATA_DIR / "processed" / "training_dataset.csv"
 
     job_features_df = load_job_features(job_features_path)
     automation_df = load_automation_target(automation_target_path)
@@ -96,11 +101,7 @@ if __name__ == "__main__":
 
     print("Merged dataset shape:", merged_df.shape)
     print("Rows with target Probability:", merged_df["Probability"].notna().sum())
-    print(
-        merged_df[
-            ["2024_national_employment_matrix_title", "Occupation", "Probability"]
-        ].head(10)
-    )
 
+    output_path.parent.mkdir(parents=True, exist_ok=True)
     merged_df.to_csv(output_path, index=False)
     print(f"Saved merged training dataset to: {output_path}")

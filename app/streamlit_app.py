@@ -1,13 +1,11 @@
-import os
-import json
 import pickle
-import requests
 import pandas as pd
 import streamlit as st
 import altair as alt
 from pathlib import Path
 from dotenv import dotenv_values
 from src.clients.aws_client import call_aws_api
+
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 ENV_PATH = BASE_DIR / ".env"
@@ -23,8 +21,10 @@ else:
     API_BASE_URL = env.get("API_BASE_URL")
     API_KEY = env.get("API_KEY")
 
-MODEL_PATH = BASE_DIR / "Datasets" / "automation_rf_model.pkl"
-JOB_FEATURES_PATH = BASE_DIR / "Datasets" / "job_features.csv"
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+MODEL_PATH = BASE_DIR / "models" / "automation_rf_model.pkl"
+JOB_FEATURES_PATH = BASE_DIR / "data" / "processed" / "job_features.csv"
 
 @st.cache_resource
 def load_saved_model(model_path: str):
