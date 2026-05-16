@@ -364,8 +364,8 @@ if aws_result:
             border:1px solid rgba(148,163,184,0.18);
             border-radius:18px;
             padding:1rem 1.1rem;
-            background:#fff7ed;
-            color:#1f2937;
+            background:rgba(245,158,11,0.08);
+            color:#111827;
             line-height:1.65;
             font-size:0.98rem;
 
