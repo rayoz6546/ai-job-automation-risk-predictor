@@ -3,7 +3,7 @@ AI-powered system that predicts job automation risk by combining machine learnin
 
 **Live App Link:** [Open the app here](https://job-automation-insights.streamlit.app/) 
 
-![alt text](System Design Diagram.png)
+(![System Design Diagram](docs/System%20Design%20Diagram.png))
 
 
 ## Project Overview
