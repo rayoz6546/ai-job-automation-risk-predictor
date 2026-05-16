@@ -364,11 +364,10 @@ if aws_result:
             border:1px solid rgba(148,163,184,0.18);
             border-radius:18px;
             padding:1rem 1.1rem;
-            background:rgba(245,158,11,0.08);
-            color:#111827;
+            background:rgba(245,158,11,0.12);
             line-height:1.65;
             font-size:0.98rem;
-
+            color:#0f172a;
         ">
             This is not a learned prediction like the ML model. It is a simple baseline score built by manually choosing a small set of onet job traits that seemed more or less automatable, then combining them into a single index.
         </div>
