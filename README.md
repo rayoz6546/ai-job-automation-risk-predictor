@@ -1,7 +1,7 @@
 # ai-job-automation-risk-predictor
 AI-powered system that predicts job automation risk by combining machine learning, LLM reasoning, and AWS-based workflow automation. Built with Random Forest, OpenAI, and AWS, it explains each role’s exposure to AI disruption.
 
-**Live App Link:** [Open the app here](https://job-automation-insights.streamlit.app/) 
+**Live App Link:** [Open the app here](https://job-automation-risk-predictor.streamlit.app/) 
 
 ![System Design Diagram](docs/System_Design_Diagram.png)
 
