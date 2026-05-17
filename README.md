@@ -1,16 +1,17 @@
 # ai-job-automation-risk-predictor
 AI-powered system that predicts job automation risk by combining machine learning, LLM reasoning, and AWS-based workflow automation. Built with Random Forest, OpenAI, and AWS, it explains each role’s exposure to AI disruption.
 
+## Live Demo
+
 **Live App Link:** [Open the app here](https://job-automation-risk-predictor.streamlit.app/) 
-
-![System Design Diagram](docs/System_Design_Diagram.png)
-
 
 ## Project Overview
 
 Job Automation Insights is an interactive Streamlit application that explores how exposed different occupations may be to automation. The goal of the project is to provide a more structured and interpretable view of automation risk by combining multiple approaches instead of relying on a single estimate.
 
 The app compares a trained machine learning prediction, a standalone LLM-based estimate, and a simple rule-based baseline built from selected O*NET job traits. It also shows projected U.S. employment trends from 2024 to 2034 for the matched occupation.
+
+![System Design Diagram](docs/System_Design_Diagram.png)
 
 ## What the App Shows
 
